@@ -1,4 +1,5 @@
 Setting up the StreamVR system without an HMD to capture pose data using HTC VIVE
+
 Written by Tiansheng Sun
 
 This documentation illustrates how to set up and use the StreamVR system to capture pose (position and orientation) data using the HTC VIVE tracker without an HMD on a Windows computer. The captured data can then be used for a robot arm so that the robot arm can move just like how the tracker moves. 
@@ -74,8 +75,8 @@ Notes on getting pose data and running them on a robot arm:
 	   Facing towards the base station, in your front is the +z direction, above you is the +y direction, and to your 
 	   left is the +x direction.
 
-	d. Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be very 
-	   unstable and lead to problems such as Gimbal Lock. 
+	d. Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be 
+	   very unstable and lead to problems such as Gimbal Lock. 
 
 Useful python module:
 
