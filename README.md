@@ -1,4 +1,4 @@
-Setting up the StreamVR system without an HMD to capture pose data using HTC VIVE
+Setting up the StreamVR system without an HMD to capture pose data using HTC VIVE tracker
 
 Written by Tiansheng Sun
 
