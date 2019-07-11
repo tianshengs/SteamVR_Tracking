@@ -72,8 +72,8 @@ Notes on getting pose data and running them on a robot arm:
 	c. For the pose data to fully work on a robot arm, you also have to convert the coordinates from the ones in the 
 	   VR world to the ones the robot arm is using. The coordinates of the VR world are set up like this:
 	   
-	   Facing towards the base station, in your front is the +z direction, above you is the +y direction, and to your 
-	   left is the +x direction.
+	   Facing towards the base station, in your front is the +z direction, above you is the +y direction, and to 
+	   your left is the +x direction.
 
 	d. Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be 
 	   very unstable and lead to problems such as Gimbal Lock. 
