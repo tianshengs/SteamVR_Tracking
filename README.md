@@ -5,7 +5,8 @@ This documentation illustrates how to set up and use the StreamVR system to capt
 
 1:  Mount the base station in your room. Using one base station should be enough. Here are some things that you need to consider when you mount the base station:
 
-	a. Mount the base station high up in the room (above your height). The tracker cannot be detected if the base station is too low or close to the tracker.
+	a. Mount the base station high up in the room (above your height). 
+	   The tracker cannot be detected if the base station is too low or close to the tracker.
 
 	b. Make sure that the base station is plugged in and mounted stably. 
 
@@ -59,14 +60,22 @@ e. Save the file and close it.
 
 Notes on getting pose data and running them on a robot arm:
 	
-	a. Check triad_openvr.py for all the possible data that you may get. Besides get_pose_euler and get_pose_quaternion, you can also get velocity (get_velocity), angular velocity (get_angular_velocity), and pose matrix (get_pose_matrix). 
+	a. Check triad_openvr.py for all the possible data that you may get. Besides get_pose_euler and 
+	   get_pose_quaternion, you can also get velocity (get_velocity), angular velocity (get_angular_velocity), 
+	   and pose matrix (get_pose_matrix). 
 
-	b. To save the pose data and use it on a robot arm, consider calculating the delta value (difference) between the beginning pose and the subsequent ones.  I wrote the file Record_trak.py that calculates the difference between the beginning pose and the subsequent ones and store them into an .obj file.
+	b. To save the pose data and use it on a robot arm, consider calculating the delta value (difference) between the 
+	   beginning pose and the subsequent ones.  I wrote the file Record_trak.py that calculates the difference between 
+	   the beginning pose and the subsequent ones and store them into an .obj file.
 
-	c. For the pose data to fully work on a robot arm, you also have to convert the coordinates from the ones in the VR world to the ones the robot arm is using. The coordinates of the VR world are set up like this:
-	   Facing towards the base station, in your front is the +z direction, above you is the +y direction, and to your left is the +x direction.
+	c. For the pose data to fully work on a robot arm, you also have to convert the coordinates from the ones in the 
+	   VR world to the ones the robot arm is using. The coordinates of the VR world are set up like this:
+	   
+	   Facing towards the base station, in your front is the +z direction, above you is the +y direction, and to your 
+	   left is the +x direction.
 
-	d. Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be very unstable and lead to problems such as Gimbal Lock. 
+	d. Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be very 
+	   unstable and lead to problems such as Gimbal Lock. 
 
 Useful python module:
 
