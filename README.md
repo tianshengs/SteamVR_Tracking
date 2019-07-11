@@ -65,8 +65,8 @@ Notes on getting pose data and running them on a robot arm:
 	   get_pose_quaternion, you can also get velocity (get_velocity), angular velocity (get_angular_velocity), 
 	   and pose matrix (get_pose_matrix). 
 
-	b. To save the pose data and use it on a robot arm, consider calculating the delta value (difference) between the 
-	   beginning pose and the subsequent ones.  I wrote the file Record_trak.py that calculates the difference 
+	b. To save the pose data and use it on a robot arm, consider calculating the delta value (difference) between 
+	   the beginning pose and the subsequent ones. I wrote the file Record_trak.py that calculates the difference 
 	   between the beginning pose and the subsequent ones and store them into an .obj file.
 
 	c. For the pose data to fully work on a robot arm, you also have to convert the coordinates from the ones in the 
