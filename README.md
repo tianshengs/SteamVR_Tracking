@@ -1,87 +1,115 @@
-Setting up the StreamVR system without an HMD to capture pose data using HTC VIVE tracker
+# Extracting data from SteamVR using HTC VIVE tracker
 
-Written by Tiansheng Sun
+The goal of this project is to extract useful pose data using the HTC VIVE tracker to pass to the UR5 robot arm through Rosvita, so that the robot arm could imitate the motion of the tracker. The program is designed for windows and only works on windows due to the compatibility of SteamVR.
 
-This documentation illustrates how to set up and use the StreamVR system to capture pose (position and orientation) data using the HTC VIVE tracker without an HMD on a Windows computer. The captured data can then be used for a robot arm so that the robot arm can move just like how the tracker moves. 
+The program uses triad_openvr.py script from [triad_openvr](https://github.com/TriadSemi/triad_openvr).
 
-1:  Mount the base station in your room. Using one base station should be enough. Here are some things that you need to consider when you mount the base station:
+## Getting Started
 
-	a. Mount the base station high up in the room (above your height). 
-	   The tracker cannot be detected if the base station is too low or close to the tracker.
+These instructions will illustrate how to set up the environment required for the program to run.
 
-	b. Make sure that the base station is plugged in and mounted stably. 
+### Setting up the Base Station
 
-	c. Change the mode of the base station to “b”.
+Mount the base station in your room (recommend using a tripod). Use one base station should be enough. Here are some things that you need to pay attention to when you mount the base station:
 
+- Mount the base station high up in the room (above your height). The tracker cannot be detected if the base station is too low or too close to the tracker.
 
-2:  Download Stream to your Windows PC. After you finish downloading Stream, create an account and log in to Stream. 
+- Make sure that the base station is plugged in and mounted stably, any movement of the base station will disconnect it from the tracker.
 
+- Change the mode of the base station to “b” by using the button on the back.
 
-3:  Go to “Library”, select “StreamVR” and download it.  
+### Prerequisites
 
+This section is adapted from [SteamVR Tracking without an HMD](http://help.triadsemi.com/en/articles/836917-steamvr-tracking-without-an-hmd). All the detailed instructions could be found on the website.
 
-4: Get access to the SteamVR files, right click on SteamVR, select Properties-> Local Files-> Browse Local Files to browse local files. 
+1. In order for the program to run, you must have the latest version of SteamVR, with opted in for the beta, then change some settings in order to track without an HMD:
 
+	1. Download [Steam](https://store.steampowered.com/about/) to your Windows PC. Create an account and log into Steam.  
+	1. Locate SteamVR in the Library tab, and download it.
+	1. Right click on SteamVR, select Properties-> Beta, change the first option to "beta - SteamVR Beta Update" in order to opt in for the beta.
+	1. After Steam finishes downloading SteamVR beta, right click on SteamVR, select Properties-> Local Files-> Browse Local Files to browse local files.
+	1. Locate this file and open it with a text editor:
+			steamapps/common/SteamVR/drivers/null/resources/settings/default.settings
+	1. Change “enable” to true
 
-5:  Since we want to track without an HMD, we have to change the setting of two SteamVR files:
+	1. Save the file and close it. Then locate this file:
+			steamapps/common/SteamVR/resources/settings/default.settings
 
-	a. Locate this file: 
-	    steamapps/common/SteamVR/drivers/null/resources/settings/default.settings
+	1. Set the following keys under “steamvr” to the followings:
+			“requireHmd”: false;
+			“forcedDriver”: “null”;
+			“activateMultipleDrivers”: true;
+	1. Save this default.vrsettings file and close
+	1. Once successfully set up SteamVR, you can now hit “Play” to start SteamVR. If SteamVR is running, close and restart it. you will see that it is now possible to connect a tracker or controller without the HMD.
 
-	b. Change “enable” to true 
+2. In order for the program to run, you should have Python 3.6 running on your computer.
 
-	c. Save the file and close it. Then locate this file: 
-	    steamapps/common/SteamVR/resources/settings/default.settings
+3. Once Python 3.6 is installed, use pip to install [pyopenvr](https://github.com/cmbruns/pyopenvr) and [pyquaternion](http://kieranwynn.github.io/pyquaternion/) with the following commands:
 
-	d. set the following keys under “steamvr” to the followings:
-	    key “requireHmd”: false;
-	    key “forcedDriver”: “null”;	
-	    key “activateMultipleDrivers”: true;
+	```
+	pip install openvr
+	pip install pyquaternion
+	```
 
-e. Save the file and close it.
+4. Now you have installed all the required prerequisites for this program. To have the program running on local environments, simply clone this GitHub repository to a local folder, and you are ready to run the program.
 
+## Running the program
 
-6:  Once we successfully set up SteamVR, we can now hit “Play” to start SteamVR. If SteamVR is running, close and restart it. We should not worry too much about Room Setup.
+Before running the program, you first need to run SteamVR, then connect the VIVE tracker to your computer(either using the USB cable, or wirelessly using the dongle and dongle cradle). Hold the button on the tracker for one second to turn on the tracker. Make sure that there is nothing between the base station and the tracker, so that the IR light sent by the base station could be detected by the tracker. When everything is connected, you will see that the base station symbol and the tracker symbol of steamVR turn green(without flashing). The light on the tracker should also turn green when it is tracking. Note that the “Not Ready” text is normal.
 
+### Examine the real-time pose information of tracker using tracker_test.py
 
-7：  Make sure that Python 3.6 is installed. 
+Once both the tracker and the base station are connected, you could run the following command to check the real-time pose data of the tracker:
 
+```
+python3 tracker_test.py
+```
 
-8：  Once Python 3.6 is installed, use the command pip install openvr to install pyopenvr.
+As the script executes, you will see numbers updating at 250Hz. The first three numbers are the Cartesian coordinates of the tracker in the order of X, Y, Z. The next four numbers are the quaternions of the tracker in the order of w, x, y, z.
 
+The coordinates of the VR world are set up like this: when facing towards the base station, in your front is the +z direction, above you is the +y direction, and to your left is the +x direction.
 
-9：  Download triad_openvr from github page: https://github.com/TriadSemi/triad_openvr. This function contains tracker_test.py that can capture position and orientation data of the tracker.
+### Record a session of pose movement and send it to robot arm
 
+#### Recording data on the windows PC using record_track.py
 
-10：  Connect the tracker to your computer. Hit the button on the tracker to turn on the tracker. When everything is connected, you will see that the base station symbol and the tracker symbol of steamVR turn green (without flashing). The light on the tracker should also turn green when it is tracking. Note that the “Not Ready” text is normal. 
+In order to record a session of pose movement, run the following command after both base station and tracker are connected:
 
+```
+python3 record_track.py [duration = 5] [interval = 0.05]
+```
 
-11：  Once both the tracker and the base station are connected, run tracker_test.py to see the numbers updating at 250HZ. Note that the numbers shown are X, Y, Z coordinates and yaw, pitch, and roll (euler angles). If you want quaternion angles, change get_pose_euler in tracker_test.py to get_pose_quaternion. 
+The program takes two optional arguments, the first argument is the duration of motion you want to record in seconds. The default value for duration is 5 seconds. The second argument is the time interval between every pose information in seconds. The shorter the interval, the more accurate the record data are. The default value for interval is 0.05 second.
 
+Once the program is executed, it will prompt you to hit enter. The recording starts as soon as you hit the enter key, and will finish when the time of duration elapses. Afterwards, the program will ask the name of file you would like to save(default is "test"). Then in the same directory, you should see a generated .obj file that contains all the recorded poses.
 
-Notes on getting pose data and running them on a robot arm:
-	
-	a. Check triad_openvr.py for all the possible data that you may get. Besides get_pose_euler and 
-	   get_pose_quaternion, you can also get velocity (get_velocity), angular velocity (get_angular_velocity), 
-	   and pose matrix (get_pose_matrix). 
+#### Execute the recorded motion on robot arm
 
-	b. To save the pose data and use it on a robot arm, consider calculating the delta value (difference) between 
-	   the beginning pose and the subsequent ones. I wrote the file Record_trak.py that calculates the difference 
-	   between the beginning pose and the subsequent ones and store them into an .obj file.
+Once having the .obj file, you should transfer the .obj file to the ubuntu machine which runs Rosvita(either through email or flash drive). Then, in the Rosvita server, navigate to the folder where the script motion_track.py is located, and upload the .obj file to the same folder. In the command line of Rosvita, execute the following command(it is recommended first running the script in simulation mode):
 
-	c. For the pose data to fully work on a robot arm, you also have to convert the coordinates from the ones in the 
-	   VR world to the ones the robot arm is using. The coordinates of the VR world are set up like this:
-	   
-	   Facing towards the base station, in your front is the +z direction, above you is the +y direction, and to 
-	   your left is the +x direction.
+```
+python3 motion_track.py
+```
 
-	d. Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be 
-	   very unstable and lead to problems such as Gimbal Lock. 
+Then, you should see the (simulated) robot arm carry out the recorded movements from motion capture data.
 
-Useful python module:
+## Notes
+- Check triad_openvr.py for all the possible data that you may get. Besides get_pose_euler and get_pose_quaternion, you can also get velocity (get_velocity), angular velocity (get_angular_velocity), and pose matrix (get_pose_matrix).
 
-	pyquaternion, a python module for representing and using quaternions: http://kieranwynn.github.io/pyquaternion/
-	
-References:
+- To save the pose data and use it on a robot arm, consider calculating the delta value (difference) between the beginning pose and the subsequent ones. I wrote the file Record_trak.py that calculates the difference between the beginning pose and the subsequent ones and store them into an .obj file.
 
-	Reid Wender: http://help.triadsemi.com/en/articles/836917-steamvr-tracking-without-an-hmd
+- For the pose data to fully work on a robot arm, you also have to convert the coordinates from the ones in the VR world to the ones the robot arm is using.
+
+- Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be very unstable and lead to problems such as Gimbal Lock.
+
+## Author
+
+* **Tiansheng Sun**
+
+* **Guanghan Pan**
+
+## Acknowledgments
+
+* Thanks to Professor Daniel Scharstein from Middlebury College for overseeing this project.
+
+* The program triad_openvr.py and tracker_test.py are downloaded and adapted from [triad_openvr](https://github.com/TriadSemi/triad_openvr).
