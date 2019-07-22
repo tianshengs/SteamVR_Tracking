@@ -108,9 +108,9 @@ Then, you should see the (simulated) robot arm carry out the recorded movements 
 
 ## Author
 
-* **Tiansheng Sun**
+* Tiansheng Sun
 
-* **Guanghan Pan**
+* Guanghan Pan
 
 ## Acknowledgments
 
