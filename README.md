@@ -81,7 +81,7 @@ python3 record_track.py [duration = 5] [interval = 0.05]
 
 The program takes two optional arguments, the first argument is the duration of motion you want to record in seconds. The default value for duration is 5 seconds. The second argument is the time interval between every pose information in seconds. The shorter the interval, the more accurate the record data are. The default value for interval is 0.05 second.
 
-Once the program is executed, it will prompt you to hit enter. The recording starts as soon as you hit the enter key, and will finish when the time of duration elapses. Afterwards, the program will ask the name of file you would like to save(default is "test"). Then in the same directory, you should see a generated .obj file that contains all the recorded poses. Also, a .png file will be generated, which contains three graphs that shows the change of Catesian Coordinate, change of Quaternion and velocity, respectively.
+Once the program is executed, it will prompt you to hit enter. The recording starts as soon as you hit the enter key, and will finish when the time of duration elapses. Afterwards, the program will ask the name of file you would like to save(default is "test"). Then in the same directory, you should see a generated .obj file that contains all the recorded poses. A .png file will also be generated, which contains three graphs that shows the change of Catesian Coordinate, change of Quaternion, and velocity, respectively.
 
 Here is a sample .png file that you may get:
 ![test](https://user-images.githubusercontent.com/25497706/61661136-6b332b00-ac99-11e9-82f6-07827b5e8a3f.png)
