@@ -49,6 +49,7 @@ This section is adapted from [SteamVR Tracking without an HMD](http://help.triad
 	```
 	pip install openvr
 	pip install pyquaternion
+	pip install matplotlib
 	```
 
 4. Now you have installed all the required prerequisites for this program. To have the program running on local environments, simply clone this GitHub repository to a local folder, and you are ready to run the program.
