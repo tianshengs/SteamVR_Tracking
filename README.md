@@ -81,7 +81,7 @@ python3 record_track.py [duration = 5] [interval = 0.05]
 
 The program takes two optional arguments, the first argument is the duration of motion you want to record in seconds. The default value for duration is 5 seconds. The second argument is the time interval between every pose information in seconds. The shorter the interval, the more accurate the record data are. The default value for interval is 0.05 second.
 
-Once the program is executed, it will prompt you to hit enter. The recording starts as soon as you hit the enter key, and will finish when the time of duration elapses. Afterwards, the program will ask the name of file you would like to save(default is "test"). Then in the same directory, you should see a generated .obj file that contains all the recorded poses.
+Once the program is executed, it will prompt you to hit enter. The recording starts as soon as you hit the "enter" key, and will finish when the time of duration elapses. Afterwards, the program will ask the name of file you would like to save(default is "test"). Then in the same directory, you should see a generated .obj file that contains all the recorded poses.
 
 #### Execute the recorded motion on robot arm
 
