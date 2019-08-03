@@ -3,7 +3,7 @@ import time
 import sys
 
 v = triad_openvr.triad_openvr()
-v.print_discovered_objects()
+# v.print_discovered_objects()
 
 if len(sys.argv) == 1:
     interval = 1/250

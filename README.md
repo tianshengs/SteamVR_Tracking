@@ -49,6 +49,7 @@ This section is adapted from [SteamVR Tracking without an HMD](http://help.triad
 	```
 	pip install openvr
 	pip install pyquaternion
+	pip install matplotlib
 	```
 
 4. Now you have installed all the required prerequisites for this program. To have the program running on local environments, simply clone this GitHub repository to a local folder, and you are ready to run the program.
@@ -76,37 +77,48 @@ The coordinates of the VR world are set up like this: when facing towards the ba
 In order to record a session of pose movement, run the following command after both base station and tracker are connected:
 
 ```
-python3 record_track.py [duration = 5] [interval = 0.05]
+python3 record_track.py [duration = 30] [interval = 0.05]
 ```
 
-The program takes two optional arguments, the first argument is the duration of motion you want to record in seconds. The default value for duration is 5 seconds. The second argument is the time interval between every pose information in seconds. The shorter the interval, the more accurate the record data are. The default value for interval is 0.05 second.
+The program takes two optional arguments, the first argument is the duration of motion you want to record in seconds. The default value for duration is 30 seconds. The second argument is the time interval between every pose information in seconds. The shorter the interval, the more accurate the record data are. The default value for interval is 0.05 second.
 
-Once the program is executed, it will prompt you to hit enter. The recording starts as soon as you hit the "enter" key, and will finish when the time of duration elapses. Afterwards, the program will ask the name of file you would like to save(default is "test"). Then in the same directory, you should see a generated .obj file that contains all the recorded poses.
+Once the program is executed, it will prompt you to hit enter. The recording starts as soon as you hit the enter key, and will finish when the time of duration elapses. Afterwards, the program will ask the name of file you would like to save(default is "test"). Then in the same directory, you should see a generated .obj file that contains all the recorded poses. A .png file will also be generated, which contains three graphs that shows the change of Cartesian Coordinate, change of Quaternion, and velocity, respectively.
 
-#### Execute the recorded motion on robot arm
+Here is a sample .png file that you may get:
+![test](https://user-images.githubusercontent.com/25497706/61661136-6b332b00-ac99-11e9-82f6-07827b5e8a3f.png)
+
+#### Translating the recorded motion to executable path on robot arm
 
 Once having the .obj file, you should transfer the .obj file to the ubuntu machine which runs Rosvita(either through email or flash drive). Then, in the Rosvita server, navigate to the folder where the script motion_track.py is located, and upload the .obj file to the same folder. In the command line of Rosvita, execute the following command(it is recommended first running the script in simulation mode):
 
 ```
-python3 motion_track.py
+python3 motion_track.py [name of the recorded data]
 ```
 
-Then, you should see the (simulated) robot arm carry out the recorded movements from motion capture data.
+Then, you should be able to define a new path with with recorded data following the instructions on the README of [RobotControl GitHub repository](https://github.com/pgh245340802/RobotControl).
 
 ## Notes
-- Check triad_openvr.py for all the possible data that you may get. Besides get_pose_euler and get_pose_quaternion, you can also get velocity (get_velocity), angular velocity (get_angular_velocity), and pose matrix (get_pose_matrix).
+- Check triad_openvr.py for all the possible data that you may get: get_pose_euler, get_pose_quaternion, get_velocity, get_angular_velocity, and get_pose_matrix.
 
-- To save the pose data and use it on a robot arm, consider calculating the delta value (difference) between the beginning pose and the subsequent ones. I wrote the file Record_trak.py that calculates the difference between the beginning pose and the subsequent ones and store them into an .obj file.
+- To save the pose data and use it on a robot arm, we calculate the delta value (difference) between the beginning pose and the subsequent ones.
 
 - For the pose data to fully work on a robot arm, you also have to convert the coordinates from the ones in the VR world to the ones the robot arm is using.
 
 - Try to use quaternion for more stable orientation data. Euler angles, although easier to comprehend, can be very unstable and lead to problems such as Gimbal Lock.
 
+## Potential Improvements:
+
+As the summer approaches to an end, I have to leave the program as it is. However, the following improvements could be made to the program:
+
+1. Decrease the lag of real-time movement of robot arm. (For now, the program records the pose every 0.4 second, and then send the 10 saved poses in a list to robot arm. In order to improve it, my idea is to record the pose only when the difference between the current pose and the last recorded pose exceed a certain threshold.)
+
+2. In the graph of change of quaternions, there exists some very steep changes from positive value to negative value. Make the graph more smooth. (Since quaternion is unique up to sign, which means q = -q, the idea is to calculate the euclidean distance of two consecutive quaternions and compare that value with the euclidean distance after negating the second quaternion value. Then, plot the point with smaller euclidean distance)
+
 ## Author
 
-* **Tiansheng Sun**
+* Tiansheng Sun
 
-* **Guanghan Pan**
+* Guanghan Pan
 
 ## Acknowledgments
 
